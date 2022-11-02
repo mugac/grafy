@@ -59,7 +59,10 @@
 			
 			elements.forEach(element => {
     		context.fillStyle = "#FF0000";
-    		context.fillRect(element.left-element.width/2, element.top-element.height/2, element.width, element.height);
+    		//context.fillRect(element.left-element.width/2, element.top-element.height/2, element.width, element.height);
+			context.beginPath();
+    		context.arc(element.left-element.width/10,  element.top-element.height/10, 30, 0, 2 * Math.PI);
+    		context.fill();
 		})
 	};
 }
