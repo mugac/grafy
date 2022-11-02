@@ -1,40 +1,80 @@
 <script>
+	import { onMount } from 'svelte';
 	let text;
-	let out = '';
-	let pathFrom = [];
-	let pathTo = [];
+	let out = "";
 	let nodes;
 	let from;
+	//true add node| false add path
+	let add = true;
 
+	let elements = [];
+	let elemLeft;
+	let elemTop;
+	let context;
+	let canvasEl;
+
+	onMount(() => {
+    console.log('Onmount');
+    context = canvasEl.getContext('2d');
+	elemLeft = canvasEl.offsetLeft + canvasEl.clientLeft;
+	elemTop = canvasEl.offsetTop + canvasEl.clientTop;
+  });
+	
 	const handleUpdate = (e) => {
 		text = e.target.value;
-	}
+	};
 	const nodesInput = (e) => {
 		nodes = e.target.value;
-	}
+	};
 	const fromNode = (e) => {
 		from = e.target.value;
-	}
+	};
 	const handleClear = () => {
 		out = "";
-	}
+	};
 
-	const handleClick = () =>{
-		let partsArr = text.split('\n');
+	const canvasClick = (event) => {
+		let x = event.pageX - elemLeft
+		let y = event.pageY - elemTop
+
+		if (!add) {
+			elements?.forEach((element) => {
+				if (
+					y > element.top &&
+					y < element.top + element.height &&
+					x > element.left &&
+					x < element.left + element.width
+				) {
+					alert("clicked an element");
+				}
+			});
+		} else {
+			elements.push({
+				colour: "blue",
+				width: 30,
+				height: 30,
+				top: y,
+				left: x
+			});
+			
+			elements.forEach(element => {
+    		context.fillStyle = "#FF0000";
+    		context.fillRect(element.left-element.width/2, element.top-element.height/2, element.width, element.height);
+		})
+	};
+}
+
+	const handleClick = () => {
+		let partsArr = text.split("\n");
 		let g = new Graph(nodes);
-		partsArr.forEach(element => {
-			let tempArr = element.split(',')
-			try{
-				g.addEdge(tempArr[0], tempArr[1])
-			}
-			catch{
-
-			}
-			pathFrom.push(tempArr[0])
-			pathTo.push(tempArr[1])
+		partsArr.forEach((element) => {
+			let tempArr = element.split(",");
+			try {
+				g.addEdge(tempArr[0], tempArr[1]);
+			} catch {}
 		});
-	g.DFS(from);
-	}
+		g.DFS(from);
+	};
 
 	class Graph {
 		constructor(v) {
@@ -50,7 +90,7 @@
 
 		DFSUtil(v, visited) {
 			visited[v] = true;
-			out += v + '\n'
+			out += v + "\n";
 
 			for (let i of this.adj[v].values()) {
 				let n = i;
@@ -67,10 +107,11 @@
 </script>
 
 <main>
-	<textarea name="inp" id="in" cols="30" rows="10"on:input={handleUpdate}></textarea>
-	<br>
-	<input type="text" placeholder="Number of nodes:" on:input={nodesInput} >
-	<input type="text" placeholder="From node:" on:input={fromNode}>
+	<canvas width="800" height="400" id="myCanvas" on:click={canvasClick} bind:this={canvasEl} />
+	<textarea name="inp" id="in" cols="30" rows="10" on:input={handleUpdate} />
+	<br />
+	<input type="text" placeholder="Number of nodes:" on:input={nodesInput} />
+	<input type="text" placeholder="From node:" on:input={fromNode} />
 	<button on:click={handleClick}>Solve</button>
 	<button on:click={handleClear}>Clear</button>
 	<p>{out}</p>
@@ -88,7 +129,10 @@
 			max-width: none;
 		}
 	}
-	p{
-		white-space: pre-line
+	p {
+		white-space: pre-line;
+	}
+	canvas {
+		border: 1px solid black;
 	}
 </style>
