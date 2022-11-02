@@ -1,17 +1,21 @@
 <script>
 	import { onMount } from 'svelte';
-	let text;
+	let text = "";
 	let out = "";
 	let nodes;
 	let from;
 	//true add node| false add path
 	let add = true;
+	let mode = "node";
+	let ft = true //true from | false to
 
 	let elements = [];
 	let elemLeft;
 	let elemTop;
 	let context;
 	let canvasEl;
+
+	let nodesCount = 0;
 
 	onMount(() => {
     console.log('Onmount');
@@ -32,38 +36,65 @@
 	const handleClear = () => {
 		out = "";
 	};
+	const handleMode = (e) => {
+		add = !add;
+		switch(mode){
+			case "node":
+				mode = "path"
+				break;
+			case "path":
+				mode = "node"
+				break;
+		}
+		
+	}
 
 	const canvasClick = (event) => {
 		let x = event.pageX - elemLeft
 		let y = event.pageY - elemTop
 
 		if (!add) {
-			elements?.forEach((element) => {
+			elements.forEach((element) => {
 				if (
-					y > element.top &&
+					y > element.top - element.height &&
 					y < element.top + element.height &&
-					x > element.left &&
+					x > element.left - element.width &&
 					x < element.left + element.width
 				) {
-					alert("clicked an element");
+					// console.log(element.num)
+					if(ft){
+						text += element.num + ','
+						ft = false;
+					}
+					else{
+						text += element.num + "\n"
+						ft = true;
+					}
+					
 				}
 			});
 		} else {
+			
 			elements.push({
 				colour: "blue",
-				width: 30,
-				height: 30,
+				width: 25,
+				height: 25,
 				top: y,
-				left: x
+				left: x,
+				num: nodesCount
 			});
-			
-			elements.forEach(element => {
+			let index = nodesCount;
+			// elements.forEach(element => {
     		context.fillStyle = "#FF0000";
-    		//context.fillRect(element.left-element.width/2, element.top-element.height/2, element.width, element.height);
+    		//context.fillRect(elements[index].left-elements[index].width/2, elements[index].top-elements[index].height/2, elements[index].width, elements[index].height);
 			context.beginPath();
-    		context.arc(element.left-element.width/10,  element.top-element.height/10, 30, 0, 2 * Math.PI);
+    		context.arc(elements[index].left,  elements[index].top, 25, 0, 2 * Math.PI);
     		context.fill();
-		})
+			context.fillStyle = "blue";
+			context.font = "20px Arial"
+			context.fillText(elements[index].num,x-elements[index].width/4,y+elements[index].height/4)
+			nodesCount++;
+		//})
 	};
 }
 
@@ -110,8 +141,12 @@
 </script>
 
 <main>
-	<canvas width="800" height="400" id="myCanvas" on:click={canvasClick} bind:this={canvasEl} />
-	<textarea name="inp" id="in" cols="30" rows="10" on:input={handleUpdate} />
+	<canvas width="800" height="400" id="myCanvas" on:click={canvasClick} bind:this={canvasEl} /> 
+	<br>
+	<button on:click={handleMode}>{mode}</button>
+	<button>Clear</button>
+	<br>
+	<textarea name="inp" id="in" cols="30" rows="10" on:input={handleUpdate} value = {text}/>
 	<br />
 	<input type="text" placeholder="Number of nodes:" on:input={nodesInput} />
 	<input type="text" placeholder="From node:" on:input={fromNode} />
