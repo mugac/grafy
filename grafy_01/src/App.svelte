@@ -1,4 +1,4 @@
-[<script>
+<script>
 	import { onMount } from "svelte";
 	let text = "";
 	let out = "";
@@ -140,7 +140,6 @@
 		let x4 = x3 + dx
 		let y4 = y3 + dy
 
-
 		context.beginPath();
 		context.moveTo(x3, y3);
 		context.lineTo(x4, y4);
@@ -238,4 +237,3 @@
 		border: 1px solid black;
 	}
 </style>
-]
