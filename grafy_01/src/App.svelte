@@ -4,8 +4,7 @@
 	let out = "";
 	let nodes;
 	let from;
-	//true add node| false add path
-	let add = true;
+	let add = true; //true add node| false add path
 	let mode = "node";
 	let ft = true; //true from | false to
 
@@ -15,6 +14,7 @@
 	let context;
 	let canvasEl;
 
+	let lines = [];
 	let lineStartX;
 	let lineStartY;
 	let lineEndX;
@@ -39,6 +39,7 @@
 		from = e.target.value;
 	};
 	const handleClear = () => {
+		context.clearRect(0,0,context.width,context.height)
 		out = "";
 	};
 	const handleMode = (e) => {
@@ -124,11 +125,11 @@
 		dx *= length - 25;
 		dy *= length - 25;
 
-		let x3 = lineStartX + dx
-		let y3 = lineStartY + dy
+		lineEndX = lineStartX + dx
+		lineEndY = lineStartY + dy
 
-		dx = lineStartX - x3;
-		dy = lineStartY - y3;
+		dx = lineStartX - lineEndX;
+		dy = lineStartY - lineEndY;
 		length = Math.sqrt(dx*dx+dy*dy)
 		if (length > 0){
     		dx /= length;
@@ -137,15 +138,23 @@
 		dx *= length - 25;
 		dy *= length - 25;
 
-		let x4 = x3 + dx
-		let y4 = y3 + dy
+		lineStartX = lineEndX + dx
+		lineStartY = lineEndY + dy
 
 		context.beginPath();
-		context.moveTo(x3, y3);
-		context.lineTo(x4, y4);
+		context.moveTo(lineStartX, lineStartY);
+		context.lineTo(lineEndX, lineEndY);
 		context.strokeStyle = "green";
 		context.lineWidth = 4;
 		context.stroke();
+
+		lines.push({
+				colour: "green",
+				startX: lineStartX,
+				startY: lineStartY,
+				endX: lineEndX,
+				endY: lineEndY,
+			});
 	};
 
 	const handleClick = () => {
@@ -200,7 +209,7 @@
 	/>
 	<br />
 	<button on:click={handleMode}>{mode}</button>
-	<button>Clear</button>
+	<button on:click={handleClear}>Clear</button>
 	<br />
 	<textarea
 		name="inp"
