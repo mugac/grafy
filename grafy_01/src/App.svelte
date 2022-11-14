@@ -21,6 +21,7 @@
 	let lineEndY;
 
 	let nodesCount = 0;
+	let linesCount = 0;
 
 	onMount(() => {
 		console.log("Onmount");
@@ -39,8 +40,13 @@
 		from = e.target.value;
 	};
 	const handleClear = () => {
-		context.clearRect(0,0,context.width,context.height)
+		context.clearRect(0,0,canvasEl.width,canvasEl.height)
 		out = "";
+		text= "";
+		elements = [];
+		lines = [];
+		nodesCount = 0;
+		linesCount = 0;
 	};
 	const handleMode = (e) => {
 		add = !add;
@@ -154,7 +160,9 @@
 				startY: lineStartY,
 				endX: lineEndX,
 				endY: lineEndY,
+				number: linesCount
 			});
+			linesCount++;
 	};
 
 	const handleClick = () => {
@@ -219,12 +227,12 @@
 		on:input={handleUpdate}
 		value={text}
 	/>
+	<p>{out}</p>
 	<br />
 	<input type="text" placeholder="Number of nodes:" on:input={nodesInput} />
 	<input type="text" placeholder="From node:" on:input={fromNode} />
 	<button on:click={handleClick}>Solve</button>
-	<button on:click={handleClear}>Clear</button>
-	<p>{out}</p>
+	
 </main>
 
 <style>
