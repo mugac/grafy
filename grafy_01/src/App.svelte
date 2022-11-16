@@ -7,7 +7,7 @@
 	let add = true; //true add node| false add path
 	let mode = "node";
 	let ft = true; //true from | false to
-
+	
 	let elements = [];
 	let elemLeft;
 	let elemTop;
@@ -63,7 +63,16 @@
 	const canvasClick = (event) => {
 		let x = event.pageX - elemLeft;
 		let y = event.pageY - elemTop;
-
+		let space = true;
+		elements.forEach((element) => {
+				if (
+					y > element.top - element.height*2 &&
+					y < element.top + element.height*2 &&
+					x > element.left - element.width*2 &&
+					x < element.left + element.width*2
+				){
+					space = false;
+				}})
 		if (!add) {
 			elements.forEach((element) => {
 				if (
@@ -88,7 +97,8 @@
 				}
 			});
 		} else {
-			elements.push({
+			if(space){
+				elements.push({
 				colour: "blue",
 				width: 25,
 				height: 25,
@@ -118,6 +128,8 @@
 			);
 			nodesCount++;
 			//})
+			}
+			
 		}
 	};
 	const drawLine = () => {
