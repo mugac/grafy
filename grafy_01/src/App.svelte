@@ -7,16 +7,9 @@
 	let from;
 	export let add = true; //true add node| false add path
 	let mode = "node";
-	let ft = true; //true from | false to
 	
-	
-
-	
-
 	let nodesCount = 0;
 	let linesCount = 0;
-
-	
 
 	const handleUpdate = (e) => {
 		text = e.target.value;

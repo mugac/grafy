@@ -14,6 +14,8 @@
 	let lineEndX;
 	let lineEndY;
 
+    let ft = true; //true from | false to
+
     onMount(() => {
 		console.log("Onmount");
 		context = canvasEl.getContext("2d");
