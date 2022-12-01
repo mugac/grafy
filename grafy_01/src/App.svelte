@@ -19,9 +19,13 @@
 	let lineStartY;
 	let lineEndX;
 	let lineEndY;
+	let lineFrom;
+	let lineTo;
 
 	let nodesCount = 0;
 	let linesCount = 0;
+
+
 
 	onMount(() => {
 		console.log("Onmount");
@@ -83,23 +87,25 @@
 				) {
 					// console.log(element.num)
 					if (ft) {
+						lineFrom = element.num
 						text += element.num + ",";
 						ft = false;
 						lineStartX = element.left;
 						lineStartY = element.top;
 					} else {
+						lineTo = element.num;
 						text += element.num + "\n";
 						ft = true;
 						lineEndX = element.left;
 						lineEndY = element.top;
-						drawLine();
+						drawLine(lineFrom, lineTo);
 					}
 				}
 			});
 		} else {
 			if(space){
 				elements.push({
-				colour: "blue",
+				colour: "red",
 				width: 25,
 				height: 25,
 				top: y,
@@ -108,7 +114,7 @@
 			});
 			let index = nodesCount;
 			// elements.forEach(element => {
-			context.fillStyle = "#FF0000";
+			context.fillStyle = elements[index].colour;
 			//context.fillRect(elements[index].left-elements[index].width/2, elements[index].top-elements[index].height/2, elements[index].width, elements[index].height);
 			context.beginPath();
 			context.arc(
@@ -132,7 +138,7 @@
 			
 		}
 	};
-	const drawLine = () => {
+	const drawLine = (lineFromF, lineToF) => {
 		let dx = lineEndX - lineStartX;
 		let dy = lineEndY - lineStartY;
 		let length = Math.sqrt(dx * dx + dy * dy);
@@ -159,25 +165,30 @@
 		lineStartX = lineEndX + dx
 		lineStartY = lineEndY + dy
 
-		context.beginPath();
-		context.moveTo(lineStartX, lineStartY);
-		context.lineTo(lineEndX, lineEndY);
-		context.strokeStyle = "green";
-		context.lineWidth = 4;
-		context.stroke();
-
 		lines.push({
 				colour: "green",
 				startX: lineStartX,
 				startY: lineStartY,
 				endX: lineEndX,
 				endY: lineEndY,
-				number: linesCount
+				number: linesCount,
+				from: lineFromF,
+				to: lineToF
 			});
+
+		context.beginPath();
+		context.moveTo(lineStartX, lineStartY);
+		context.lineTo(lineEndX, lineEndY);
+		context.strokeStyle = lines[linesCount].colour;
+		context.lineWidth = 4;
+		context.stroke();
+
+		
 			linesCount++;
 	};
 
 	const handleClick = () => {
+		out = "";
 		let partsArr = text.split("\n");
 		let g = new Graph(nodes);
 		partsArr.forEach((element) => {
@@ -217,6 +228,58 @@
 			this.DFSUtil(v, visited);
 		}
 	}
+	let nodesA =[];
+	const handlePlay = () => {
+			nodesA = out.split("\n");
+			timer = setInterval(play, 1000)
+	}
+	let i = 0;
+	let timer;
+	const play = () => {
+		elements[nodesA[i]].colour = 'orange';
+		redraw();
+		elements[nodesA[i]].colour = 'red';
+		i++;
+		if(i==nodesA.length-1){
+			clearInterval(timer)
+		}
+	}
+
+	const redraw = ()=>{
+			context.clearRect(0,0,canvasEl.width,canvasEl.height)
+			elements.forEach((element)=>{
+				context.beginPath();
+				context.arc(
+				element.left,
+				element.top,
+				25,
+				0,
+				2 * Math.PI
+				);
+
+				context.fillStyle = element.colour;
+				context.fill();
+				
+				context.fillStyle = "blue";
+				context.font = "20px Arial";
+				context.fillText(
+					element.num,
+					element.left - element.width / 4,
+					element.top + element.height / 4
+				);
+			})
+			lines.forEach((element)=>{
+				context.beginPath();
+				context.moveTo(element.startX, element.startY);
+				context.lineTo(element.endX, element.endY);
+				context.strokeStyle = element.colour;
+				context.lineWidth = 4;
+				context.stroke();
+			})
+	}
+
+	
+
 </script>
 
 <main>
@@ -230,6 +293,7 @@
 	<br />
 	<button on:click={handleMode}>{mode}</button>
 	<button on:click={handleClear}>Clear</button>
+	<button on:click={handlePlay}>play</button>
 	<br />
 	<textarea
 		name="inp"
