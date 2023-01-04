@@ -1,5 +1,7 @@
 <script>
+	import {GraphDFS, GraphBFS} from  "./components/algs.js";
 	import { onMount } from "svelte";
+    import { validate_slots } from "svelte/internal";
 	let text = "";
 	let out = "";
 	let nodes;
@@ -25,7 +27,7 @@
 	let nodesCount = 0;
 	let linesCount = 0;
 
-
+	let algorithm = 'DFS';
 
 	onMount(() => {
 		console.log("Onmount");
@@ -33,7 +35,9 @@
 		elemLeft = canvasEl.offsetLeft + canvasEl.clientLeft;
 		elemTop = canvasEl.offsetTop + canvasEl.clientTop;
 	});
-
+	const handleAlgorithm = (e)=> {
+		algorithm = e.target.id;
+	}
 	const handleUpdate = (e) => {
 		text = e.target.value;
 	};
@@ -85,7 +89,6 @@
 					x > element.left - element.width &&
 					x < element.left + element.width
 				) {
-					// console.log(element.num)
 					if (ft) {
 						lineFrom = element.num
 						text += element.num + ",";
@@ -113,9 +116,7 @@
 				num: nodesCount,
 			});
 			let index = nodesCount;
-			// elements.forEach(element => {
 			context.fillStyle = elements[index].colour;
-			//context.fillRect(elements[index].left-elements[index].width/2, elements[index].top-elements[index].height/2, elements[index].width, elements[index].height);
 			context.beginPath();
 			context.arc(
 				elements[index].left,
@@ -133,7 +134,6 @@
 				y + elements[index].height / 4
 			);
 			nodesCount++;
-			//})
 			}
 			
 		}
@@ -188,46 +188,38 @@
 	};
 
 	const handleClick = () => {
+		let g
 		out = "";
 		let partsArr = text.split("\n");
-		let g = new Graph(nodes);
+		switch (algorithm){
+			case 'DFS':
+				g = new GraphDFS(nodes);
+			break;
+			case 'BFS':
+				g = new GraphBFS(nodes);
+			break;
+		}
+		
+		
+		g.setOut(out);
 		partsArr.forEach((element) => {
 			let tempArr = element.split(",");
 			try {
 				g.addEdge(tempArr[0], tempArr[1]);
 			} catch {}
 		});
-		g.DFS(from);
+		switch (algorithm){
+			case 'DFS':
+				g.DFS(from);
+			break;
+			case 'BFS':
+				g.BFS(from);
+			break;
+		}
+		
+		out = g.getOut();
+		console.log(out);
 	};
-
-	class Graph {
-		constructor(v) {
-			this.V = v;
-			this.adj = new Array(v);
-			for (let i = 0; i < v; i++) this.adj[i] = [];
-		}
-
-		addEdge(v, w) {
-			// Add w to v's list.
-			this.adj[v].push(w);
-		}
-
-		DFSUtil(v, visited) {
-			visited[v] = true;
-			out += v + "\n";
-
-			for (let i of this.adj[v].values()) {
-				let n = i;
-				if (!visited[n]) this.DFSUtil(n, visited);
-			}
-		}
-		DFS(v) {
-			let visited = new Array(this.V);
-			for (let i = 0; i < this.V; i++) visited[i] = false;
-
-			this.DFSUtil(v, visited);
-		}
-	}
 	let nodesA =[];
 	const handlePlay = () => {
 			nodesA = out.split("\n");
@@ -277,12 +269,14 @@
 				context.stroke();
 			})
 	}
-
-	
-
 </script>
 
 <main>
+	<button id="DFS" on:click={handleAlgorithm}>DFS</button>
+	<button id="BFS" on:click={handleAlgorithm}>BFS</button>
+	<button id="Shortest Path" on:click={handleAlgorithm}>Shortest Path</button>
+	<button id="Spanning Tree" on:click={handleAlgorithm}>Spanning Tree</button>
+	<br>
 	<canvas
 		width="800"
 		height="400"
@@ -295,7 +289,9 @@
 	<button on:click={handleClear}>Clear</button>
 	<button on:click={handlePlay}>play</button>
 	<br />
-	<textarea
+	
+		<textarea
+		placeholder="Input"
 		name="inp"
 		id="in"
 		cols="30"
@@ -303,7 +299,7 @@
 		on:input={handleUpdate}
 		value={text}
 	/>
-	<p>{out}</p>
+	<textarea placeholder="Output" name="output" id="output" cols="30" rows="10" value={out}></textarea>
 	<br />
 	<input type="text" placeholder="Number of nodes:" on:input={nodesInput} />
 	<input type="text" placeholder="From node:" on:input={fromNode} />
