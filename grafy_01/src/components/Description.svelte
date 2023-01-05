@@ -1,6 +1,7 @@
 <script>
     import Dfs from "./algoDesc/DFS.svelte";
     import Bfs from "./algoDesc/BFS.svelte";
+    import Shortestpath from "./algoDesc/Shortest path.svelte";
     export let algorithm = 'DFS';
 </script>
 <main>
@@ -8,5 +9,7 @@
 	    <Dfs/>
     {:else if algorithm == 'BFS'}
 	    <Bfs/>
+    {:else if algorithm == 'SHP'}
+	    <Shortestpath/>
     {/if}
 </main>

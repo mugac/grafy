@@ -24,12 +24,12 @@
 	on:click="{() => algorithm = 'BFS'}"
 	>BFS</button>
 	<button
-	class="{algorithm === 'Shortest Path' ? 'selected' : ''}"
-	on:click="{() => algorithm = 'Shortest Path'}"
+	class="{algorithm === 'SHP' ? 'selected' : ''}"
+	on:click="{() => algorithm = 'SHP'}"
 	>Shortest Path</button>
 	<button
-	class="{algorithm === 'Spanning Tree' ? 'selected' : ''}"
-	on:click="{() => algorithm = 'Spanning Tree'}"
+	class="{algorithm === 'SPT' ? 'selected' : ''}"
+	on:click="{() => algorithm = 'SPT'}"
 	>Spanning Tree</button>
 	<br>
 
