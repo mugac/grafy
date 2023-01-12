@@ -1,7 +1,7 @@
 <main>
     <div class="container">
         <div class="text">
-        <p>DFS (anglicky Depth-First Search) je jedna z nejběžnějších technik pro procházení grafů nebo stromů. <br><br>
+        <p>DFS (Depth-First Search, česky prohledávání do hloubky) je jedna z nejběžnějších technik pro procházení grafů nebo stromů. <br><br>
         Algoritmus prochází graf od vrcholu, kde začíná, a pokračuje hlouběji a hlouběji, dokud nenarazí na konec 
         grafu, nebo nedosáhne nějakého limitu. V tomto okamžiku se vrací zpět a začne procházet jinou cestou.
             <br><br>
@@ -12,6 +12,14 @@
         DFS je velmi rychlý a efektivní, ale má jednu nevýhodu: může snadno "zabloudit" v grafu a procházet se dokola,
          pokud graf obsahuje cykly. Je tedy vhodné použít DFS spíše v případech, kdy máte zájem o procházení celého grafu 
         nebo stromu, a nejen o nalezení nejkratší cesty mezi dvěma vrcholy.</p>
+        <br>
+        Využití DFS:
+        <ul>
+            <li>Prohledávání internetových stránek pro indexování vyhledávačů</li>
+            <li>Prohledávání stromu souborů v počítači</li>
+            <li>Prohledávání molekul pro hledání konformací</li>
+            <li>Procházení topologie</li>
+        </ul>
     
     </div>
     <div class="gif">
@@ -116,7 +124,9 @@
         max-width:40vw;
     }
     .text{
-
+        text-align: left;
+        line-break: normal;
+        color: white;
     }
     .gif{
         max-width: min-content;
