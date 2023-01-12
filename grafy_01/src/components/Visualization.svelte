@@ -28,7 +28,6 @@
 	let linesCount = 0;
 
 	onMount(() => {
-		console.log("Onmount");
 		context = canvasEl.getContext("2d");
 		elemLeft = canvasEl.offsetLeft + canvasEl.clientLeft;
 		elemTop = canvasEl.offsetTop + canvasEl.clientTop;
