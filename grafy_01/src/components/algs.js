@@ -83,3 +83,43 @@ export class GraphBFS
             this.out = out;
         }
     }
+    export class GraphSHP
+    {
+    SHP(graph, src)
+    {
+        let dist = new Array(V);
+        let sptSet = new Array(V);
+        
+        for(let i = 0; i < V; i++)
+        {
+            dist[i] = Number.MAX_VALUE;
+            sptSet[i] = false;
+        }
+        
+        dist[src] = 0;
+        
+        for(let count = 0; count < V - 1; count++)
+        {
+            let u = minDistance(dist, sptSet);
+
+            sptSet[u] = true;
+
+            for(let v = 0; v < V; v++)
+            {
+
+                if (!sptSet[v] && graph[u][v] != 0 &&
+                    dist[u] != Number.MAX_VALUE &&
+                    dist[u] + graph[u][v] < dist[v])
+                {
+                    dist[v] = dist[u] + graph[u][v];
+                }
+            }
+        }
+    }
+    getOut(){
+        return this.out;
+    }
+    setOut(out){
+        this.out = out;
+    }
+    }

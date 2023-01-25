@@ -1,11 +1,13 @@
 <script>
     export let algorithm = 'DFS';
-	import {GraphDFS, GraphBFS} from  "./algs.js";
+	import {GraphDFS, GraphBFS, GraphSHP} from  "./algs.js";
 	import { onMount } from "svelte";
+    import { element } from "svelte/internal";
 	let text = "";
 	let out = "";
 	let nodes;
 	let from;
+	let value;
 	let add = true; //true add node| false add path
 	let mode = "node";
 	let ft = true; //true from | false to
@@ -180,7 +182,23 @@
 		
 			linesCount++;
 	};
-
+	const matrix = () =>{
+		var mat = [];
+  		for (var i = 0; i < nodes.length; i++) {
+    		mat[i] = [];
+    		for (var j = 0; j < nodes.length; j++) {
+      			mat[i][j] = 0;
+    		}
+  		}
+		let parsArr = text.split("\n");
+		parsArr.forEach((element)=> {
+			let fromN = 
+		} 
+		)
+  		for (var i = 0; i < from.length; i++) {
+			// mat[from[i]][to[i]] = val[i] 
+  		}
+	}
 	const handleClick = () => {
 		let g
 		out = "";
@@ -191,6 +209,10 @@
 			break;
 			case 'BFS':
 				g = new GraphBFS(nodes);
+			break;
+			case 'SHP':
+				matrix();
+				g = new GraphSHP(nodes);
 			break;
 		}
 		
@@ -208,6 +230,9 @@
 			break;
 			case 'BFS':
 				g.BFS(from);
+			break;
+			case 'SHP':
+				g.SHP(from);
 			break;
 		}
 		
@@ -278,7 +303,8 @@
 	<button on:click={handleClear}>Clear</button>
 	<button on:click={handlePlay}>play</button>
 	<br />
-	
+	<div class="flex-container">
+	<div class="Input">
 		<textarea
 		placeholder="Input"
 		name="inp"
@@ -286,9 +312,25 @@
 		cols="30"
 		rows="10"
 		on:input={handleUpdate}
-		value={text}
+		value={text}/>
+		<!-- {#each text as txt}
+            <textarea name="value" id="" cols="30" rows="10" value={txt}></textarea>
+		{/each} -->
 	/>
+</div>
+	{#if algorithm == 'SHP'}
+	<div class="Value">
+		<textarea placeholder="Path value" name="output" id="output" cols="30" rows="10" value={out}></textarea>
+	</div>
+    {:else if algorithm == 'SPT'}
+	<div class="Value">
+		<textarea placeholder="Path value" name="output" id="output" cols="30" rows="10" value={out}></textarea>
+	</div>
+    {/if}
+	<div class="Output">
 	<textarea placeholder="Output" name="output" id="output" cols="30" rows="10" value={out}></textarea>
+</div>
+</div>
 	<br />
 	<input type="text" placeholder="Number of nodes:" on:input={nodesInput} />
 	<input type="text" placeholder="From node:" on:input={fromNode} />
@@ -318,4 +360,32 @@
     input{
         background-color: #3B3A3A;
     }
+	.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: stretch;
+    align-items: flex-start;
+    }
+
+
+.Input { 
+	order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+ }
+
+.Value { 
+	order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+ }
+
+.Output { 
+	order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+ }
+
 </style>
