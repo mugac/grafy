@@ -1,8 +1,8 @@
 <script>
     import Visualization from "./components/Visualization.svelte";
 	import Description from "./components/Description.svelte";
-	let content = 'desc';
-	let algorithm = 'DFS';
+	let content = 'vis';
+	let algorithm = 'SHP';
 </script>
 
 <main>

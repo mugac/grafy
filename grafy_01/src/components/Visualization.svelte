@@ -7,7 +7,7 @@
 	let out = "";
 	let nodes;
 	let from;
-	let value;
+	let valueIn = "";
 	let add = true; //true add node| false add path
 	let mode = "node";
 	let ft = true; //true from | false to
@@ -43,14 +43,19 @@
 	const fromNode = (e) => {
 		from = e.target.value;
 	};
+	const pathValue = (e)=>{
+		valueIn = e.target.value;
+	}
 	const handleClear = () => {
 		context.clearRect(0,0,canvasEl.width,canvasEl.height)
 		out = "";
 		text= "";
+		valueIn=0;
 		elements = [];
 		lines = [];
 		nodesCount = 0;
 		linesCount = 0;
+		clearInterval(timer)
 	};
 	const handleMode = (e) => {
 		add = !add;
@@ -182,22 +187,33 @@
 		
 			linesCount++;
 	};
+	let mat;
 	const matrix = () =>{
-		var mat = [];
-  		for (var i = 0; i < nodes.length; i++) {
-    		mat[i] = [];
-    		for (var j = 0; j < nodes.length; j++) {
-      			mat[i][j] = 0;
-    		}
-  		}
+		mat = new Array(nodes)	//create 2d array
+		for (let i = 0; i < nodes; i++) {
+ 			mat[i] = new Array(parseInt(nodes));
+		}
+		for(let i = 0; i<nodes;i++) //fill 2d array with 0
+		{
+			for(let j = 0;j<nodes;j++)
+			{
+				mat[i][j] = 0;
+			}
+		}
+		
+		let parsValue = valueIn.split("\n");
+		let ind = 0;
 		let parsArr = text.split("\n");
 		parsArr.forEach((element)=> {
-			let fromN = 
+			let tempArr = element.split(",");
+			try {
+				mat[tempArr[0]][tempArr[1]] = parseInt(parsValue[ind]);
+				mat[tempArr[1]][tempArr[0]] = parseInt(parsValue[ind]);
+				ind++;
+			} catch {}
 		} 
 		)
-  		for (var i = 0; i < from.length; i++) {
-			// mat[from[i]][to[i]] = val[i] 
-  		}
+		console.log(mat);
 	}
 	const handleClick = () => {
 		let g
@@ -216,7 +232,6 @@
 			break;
 		}
 		
-		
 		g.setOut(out);
 		partsArr.forEach((element) => {
 			let tempArr = element.split(",");
@@ -232,7 +247,7 @@
 				g.BFS(from);
 			break;
 			case 'SHP':
-				g.SHP(from);
+				g.SHP(mat, from);
 			break;
 		}
 		
@@ -320,11 +335,11 @@
 </div>
 	{#if algorithm == 'SHP'}
 	<div class="Value">
-		<textarea placeholder="Path value" name="output" id="output" cols="30" rows="10" value={out}></textarea>
+		<textarea placeholder="Path value" name="pathValue" id="pathValue" cols="30" rows="10" on:input={pathValue} value={valueIn}></textarea>
 	</div>
     {:else if algorithm == 'SPT'}
 	<div class="Value">
-		<textarea placeholder="Path value" name="output" id="output" cols="30" rows="10" value={out}></textarea>
+		<textarea placeholder="Path value" name="pathValue" id="pathValue" cols="30" rows="10" on:input={pathValue} value={valueIn}></textarea>
 	</div>
     {/if}
 	<div class="Output">

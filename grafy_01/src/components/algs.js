@@ -83,8 +83,12 @@ export class GraphBFS
             this.out = out;
         }
     }
-    export class GraphSHP
+
+export class GraphSHP
     {
+        constructor(v) {
+			this.V = v;
+        }
     SHP(graph, src)
     {
         let dist = new Array(V);
@@ -116,10 +120,37 @@ export class GraphBFS
             }
         }
     }
+    minDistance(dist,sptSet)
+    {
+        let min = Number.MAX_VALUE;
+        let min_index = -1;
+        
+        for(let v = 0; v < V; v++)
+        {
+            if (sptSet[v] == false && dist[v] <= min)
+            {
+                min = dist[v];
+                min_index = v;
+            }
+        }
+        return min_index;
+    }
+    printSolution(dist)
+    {
+        //document.write("Vertex \t\t Distance from Source<br>");
+        for(let i = 0; i < V; i++)
+        {
+            this.out += i + " \t\t " + dist[i] + "<br>";
+            // document.write(i + " \t\t " +
+            //         dist[i] + "<br>");
+        }
+    }
+
     getOut(){
         return this.out;
     }
     setOut(out){
         this.out = out;
     }
-    }
+    
+}
