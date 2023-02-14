@@ -2,7 +2,7 @@
     import Visualization from "./components/Visualization.svelte";
 	import Description from "./components/Description.svelte";
 	let content = 'vis';
-	let algorithm = 'SHP';
+	let algorithm = 'DFS';
 </script>
 
 <main>
@@ -27,10 +27,10 @@
 	class="{algorithm === 'SHP' ? 'selected' : ''}"
 	on:click="{() => algorithm = 'SHP'}"
 	>Shortest Path</button>
-	<button
+	<!-- <button
 	class="{algorithm === 'SPT' ? 'selected' : ''}"
 	on:click="{() => algorithm = 'SPT'}"
-	>Spanning Tree</button>
+	>Spanning Tree</button> -->
 	<br>
 
 	{#if content == 'desc'}
@@ -54,7 +54,7 @@
 		}
 	}
 	.selected {
-		background-color: #ff3e00;
+		background-color: #3e4066;
 		color: white;
 	}
 	/* canvas {
