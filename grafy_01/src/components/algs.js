@@ -91,10 +91,10 @@ export class GraphSHP
         }
     SHP(graph, src)
     {
-        let dist = new Array(V);
-        let sptSet = new Array(V);
+        let dist = new Array(this.V);
+        let sptSet = new Array(this.V);
         
-        for(let i = 0; i < V; i++)
+        for(let i = 0; i < this.V; i++)
         {
             dist[i] = Number.MAX_VALUE;
             sptSet[i] = false;
@@ -102,13 +102,13 @@ export class GraphSHP
         
         dist[src] = 0;
         
-        for(let count = 0; count < V - 1; count++)
+        for(let count = 0; count < this.V - 1; count++)
         {
-            let u = minDistance(dist, sptSet);
+            let u = this.minDistance(dist, sptSet);
 
             sptSet[u] = true;
 
-            for(let v = 0; v < V; v++)
+            for(let v = 0; v < this.V; v++)
             {
 
                 if (!sptSet[v] && graph[u][v] != 0 &&
@@ -119,13 +119,14 @@ export class GraphSHP
                 }
             }
         }
+        this.printSolution(dist);
     }
     minDistance(dist,sptSet)
     {
         let min = Number.MAX_VALUE;
         let min_index = -1;
         
-        for(let v = 0; v < V; v++)
+        for(let v = 0; v < this.V; v++)
         {
             if (sptSet[v] == false && dist[v] <= min)
             {
@@ -137,10 +138,11 @@ export class GraphSHP
     }
     printSolution(dist)
     {
+        this.out += "Destinace => Cena cesty" + "\n";
         //document.write("Vertex \t\t Distance from Source<br>");
-        for(let i = 0; i < V; i++)
+        for(let i = 0; i < this.V; i++)
         {
-            this.out += i + " \t\t " + dist[i] + "<br>";
+            this.out += i + " => " + dist[i] + "\n";
             // document.write(i + " \t\t " +
             //         dist[i] + "<br>");
         }
