@@ -92,7 +92,7 @@
 				) {
 					if (ft) {
 						lineFrom = element.num
-						text += element.num + ",";
+						text += element.num + "=>";
 						ft = false;
 						lineStartX = element.left;
 						lineStartY = element.top;
@@ -205,7 +205,7 @@
 		let ind = 0;
 		let parsArr = text.split("\n");
 		parsArr.forEach((element)=> {
-			let tempArr = element.split(",");
+			let tempArr = element.split("=>");
 			try {
 				mat[tempArr[0]][tempArr[1]] = parseInt(parsValue[ind]);
 				mat[tempArr[1]][tempArr[0]] = parseInt(parsValue[ind]);
@@ -234,7 +234,7 @@
 		
 		g.setOut(out);
 		partsArr.forEach((element) => {
-			let tempArr = element.split(",");
+			let tempArr = element.split("=>");
 			try {
 				g.addEdge(tempArr[0], tempArr[1]);
 			} catch {}
