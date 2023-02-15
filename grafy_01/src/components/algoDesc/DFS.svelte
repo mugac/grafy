@@ -91,18 +91,6 @@
             <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#125;</code></tr>
             <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#125;</code></tr>
             <tr><code class="plain">&#125;</code></tr>
-            
-
-            <!-- &#123;
-            &#125;
-
-            &nbsp
-
-            &#60;int&#62;
-
-            &#60;
-            &#62; -->
-            <code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code>
         </tbody>
         </table>
     </div>

@@ -109,7 +109,7 @@
 		} else {
 			if(space){
 				elements.push({
-				colour: "red",
+				colour: "#8F80F4",
 				width: 25,
 				height: 25,
 				top: y,
@@ -127,7 +127,7 @@
 				2 * Math.PI
 			);
 			context.fill();
-			context.fillStyle = "blue";
+			context.fillStyle = "#ded6c8";
 			context.font = "20px Arial";
 			context.fillText(
 				elements[index].num,
@@ -167,7 +167,7 @@
 		lineStartY = lineEndY + dy
 
 		lines.push({
-				colour: "green",
+				colour: "#71e0eb",
 				startX: lineStartX,
 				startY: lineStartY,
 				endX: lineEndX,
@@ -264,7 +264,7 @@
 	const play = () => {
 		elements[nodesA[i]].colour = 'orange';
 		redraw();
-		elements[nodesA[i]].colour = 'red';
+		elements[nodesA[i]].colour = '#8F80F4';
 		i++;
 		if(i==nodesA.length-1){
 			clearInterval(timer)
@@ -286,7 +286,7 @@
 				context.fillStyle = element.colour;
 				context.fill();
 				
-				context.fillStyle = "blue";
+				context.fillStyle = "#ded6c8";
 				context.font = "20px Arial";
 				context.fillText(
 					element.num,
@@ -331,7 +331,6 @@
 		<!-- {#each text as txt}
             <textarea name="value" id="" cols="30" rows="10" value={txt}></textarea>
 		{/each} -->
-	/>
 </div>
 	{#if algorithm == 'SHP'}
 	<div class="Value">
@@ -368,6 +367,8 @@
 	canvas {
         background-color: #3B3A3A;
 		border: 1px solid #8D8272;
+		border-radius: 5px;
+		box-shadow: 0.8px 0.8px 5px #888888;
 	}
     textarea{
         background-color: #3B3A3A;
