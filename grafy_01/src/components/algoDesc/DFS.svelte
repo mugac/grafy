@@ -1,3 +1,81 @@
+<svelte:head>
+  <link href="prismXokai.css" rel="stylesheet" />
+</svelte:head>
+<script>
+    import Prism from "./prism/PrismJS.svelte"
+    let code = `using System;
+using System.Collections.Generic;
+
+public class Program
+{
+    public static void Main()
+    {
+        // create a new queue to use in DFS
+        Queue<int> que = new Queue<int>();
+
+        // create a new graph with 4 vertices
+        Graph g = new Graph(4);
+
+        // add edges to the graph
+        g.addEdge(0, 1);
+        g.addEdge(0, 2);
+        g.addEdge(1, 2);
+        g.addEdge(2, 0);
+        g.addEdge(2, 3);
+        g.addEdge(3, 3);
+
+        // perform DFS starting from vertex 2
+        g.DFS(2);
+    }
+}
+
+public class Graph
+{
+    int V; // the number of vertices in the graph
+    List<int>[] adj; // an array of adjacency lists to represent the graph
+
+    // constructor to initialize the graph with the given number of vertices
+    public Graph(int v)
+    {
+        V = v;
+        adj = new List<int>[v];
+        for (int i = 0; i < v; i++)
+        {
+            adj[i] = new List<int>();
+        }
+    }
+
+    // method to add an edge between two vertices in the graph
+    public void addEdge(int v, int w)
+    {
+        adj[v].Add(w);
+    }
+
+    // method to perform depth-first search starting from the given source vertex
+    public void DFS(int s)
+    {
+        bool[] visited = new bool[V]; // array to keep track of visited vertices
+        for (int i = 0; i < V; i++)
+            visited[i] = false;
+        Queue<int> queue = new Queue<int>(); // create a new queue for DFS
+        queue.Enqueue(s); // add the source vertex to the queue
+        visited[s] = true; // mark the source vertex as visited
+        while (queue.Count != 0) // loop until the queue is empty
+        {
+            int pop = queue.Dequeue(); // remove the next vertex from the queue
+            Console.Write(pop + " "); // print the vertex
+            foreach (var vert in adj[pop]) // iterate over the adjacent vertices
+            {
+                if (!visited[vert]) // if the adjacent vertex is not visited
+                {
+                    visited[vert] = true; // mark it as visited
+                    queue.Enqueue(vert); // add it to the queue
+                }
+            }
+        }
+    }
+}`;
+</script>
 <main>
     <div class="container">
         <div class="text">
@@ -26,79 +104,12 @@
         <img src="animace/dfs.gif" alt="gif">
     </div>
     <div class="code">
-        <table>
-        <tbody>
-            <tr><code class="keyword">using </code><code class="color1">System</code><code class="plain">;</code></tr>
-            <tr><code class="keyword">using </code><code class="color1">System.Collections.Generic</code><code class="plain">;</code></tr>
-            <tr></tr>
-            <tr><code class="keyword">public class </code><code class="color1">Program</code></tr>
-            <tr><code class="plain">&#123;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">public static void </code><code class="color1">Main</code><code class="plain">()</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#123;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="color1">Queue</code><code class="plain">&#60;int&#62;&nbsp</code> <code class="color1">que </code><code class="plain">= </code><code class="keyword">new </code><code class="color1">Queue</code><code class="plain">&#60;int&#62;</code><code class="plain">();</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="color1">Graph </code><code class="plain">g = </code><code class="keyword">new </code><code class="color1">Graph</code><code class="plain">(</code><code class="number">4</code><code class="plain">);</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">g.</code><code class="keyword">addEdge</code><code class="plain">(</code><code class="number">0</code><code class="plain">, </code><code class="number">1</code><code class="plain">);</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">g.</code><code class="keyword">addEdge</code><code class="plain">(</code><code class="number">0</code><code class="plain">, </code><code class="number">2</code><code class="plain">);</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">g.</code><code class="keyword">addEdge</code><code class="plain">(</code><code class="number">1</code><code class="plain">, </code><code class="number">2</code><code class="plain">);</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">g.</code><code class="keyword">addEdge</code><code class="plain">(</code><code class="number">2</code><code class="plain">, </code><code class="number">0</code><code class="plain">);</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">g.</code><code class="keyword">addEdge</code><code class="plain">(</code><code class="number">2</code><code class="plain">, </code><code class="number">3</code><code class="plain">);</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">g.</code><code class="keyword">addEdge</code><code class="plain">(</code><code class="number">3</code><code class="plain">, </code><code class="number">3</code><code class="plain">);</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">g.</code><code class="keyword">DFS</code><code class="plain">(</code><code class="number">2</code><code class="plain">);</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#125;</code></tr>
-            <tr><code class="plain">&#125;</code></tr>
-            <tr></tr>
-            <tr><code class="keyword">public class </code><code class="color1">Graph</code></tr>
-            <tr><code class="plain">&#123;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">int </code><code class="color1">V</code><code class="plain">;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="color1">List</code><code class="plain">&#60;int&#62;&#91;&#93;&nbsp;</code><code class="color1">adj</code><code class="plain">;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">public </code><code class="color1">Graph</code><code class="plain">(</code><code class="plain">int v</code><code class="plain">)</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#123;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">V </code><code class="keyword">= </code><code class="plain">v;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">adj </code><code class="keyword">= new </code><code class="color1">List</code><code class="plain">&#60;int&#62;&#91;v&#93;&nbsp;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">for </code><code class="plain">(int i = 0; i&#60; v; i++)</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#123;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">adj&#91;i&#93;&nbsp;</code><code class="keyword">= new </code><code class="color1">List</code><code class="plain">&#60;int&#62;();</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#125;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#125;</code></tr>
-            <tr></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">public void </code><code class="color1">addEdge</code><code class="plain">(int v, int w)</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#123;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">adj&#91;v&#93;.</code><code class="color1">Add</code><code class="plain">(w);</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#125;</code></tr>
-            <tr></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">public void </code><code class="color1">DFS</code><code class="plain">(int s)</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#123</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">bool</code><code class="plain">&#91;&#93;&nbsp;</code><code class="color1">visited </code><code class="keyword">= new bool</code><code class="plain">&#91;V&#93;;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">for </code><code class="plain">(int i = 0; i&#60; v; i++)</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#123;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">visited&#91;i&#93;&nbsp;</code><code class="keyword">= </code><code class="number">false</code><code class="plain">;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#125</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="color1">Queue</code><code class="plain">&#60;int&#62;&nbsp;</code><code class="plain">queue </code><code class="keyword">= new </code><code class="color1">Queue</code><code class="plain">&#60;int&#62;();</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">queue.</code><code class="color1">Enqueue</code><code class="plain">(s);</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">visited&#60;s&#62;&nbsp;</code><code class="keyword">= </code><code class="number">true</code><code class="plain">;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">while </code><code class="plain">(queue.Count != 0)</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#125;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">int </code><code class="color1">pop </code><code class="keyword">= </code><code class="plain">queue.</code><code class="color1">Dequeue</code><code class="plain">();</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">Console.</code><code class="color1">Write</code><code class="plain">(pop + &#34;&nbsp;&#34;);</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">foreach </code><code class="plain">(var vert in adj&#91;pop&#93;)</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#123;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">if </code><code class="plain">(!visited&#91;vert&#93;)</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#123;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">visited&#91;vert&#93;&nbsp;</code><code class="keyword">= </code><code class="number">true</code><code class="plain">;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">queue.</code><code class="color1">Enqueue</code><code class="plain">(vert);</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#125;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#125;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#125;</code></tr>
-            <tr><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&#125;</code></tr>
-            <tr><code class="plain">&#125;</code></tr>
-        </tbody>
-        </table>
+        <Prism language="c" code="{code}" header="Sameple R Code"/>
     </div>
     </div>
     </main>
 <style>
     div{
-        /* border: 1px solid #8D8272; */
         margin-top: 5%;
         margin-left: 5%;
         padding: 1%;
@@ -127,22 +138,5 @@
   grid-template-areas: 
     "text gif"
     "code code"; 
-}
-.code {
-    border-radius: 2%;
-    background-color: #464545;
-    text-align: left;
-  }
-.keyword{
-    color: #ff1818;
-}
-.number{
-    color: rgb(0, 255, 255);
-}
-.plain{
-    color: aliceblue;
-}
-.color1{
-    color: #ffc400;
 }
 </style>

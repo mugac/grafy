@@ -2,23 +2,24 @@
     export let algorithm = 'DFS';
 	import {GraphDFS, GraphBFS, GraphSHP} from  "./algs.js";
 	import { onMount } from "svelte";
-    import { element } from "svelte/internal";
-	let text = "";
-	let out = "";
-	let nodes;
-	let from;
-	let valueIn = "";
+	let text = ""; //Textbox with paths
+	let out = ""; //Output textbox
+	let nodes; //Number of nodes input
+	let from;  //Number of starting node
+	let valueIn = ""; //Path values for shortest path
 	let add = true; //true add node| false add path
-	let mode = "node";
+	let mode = "node"; //node|path
 	let ft = true; //true from | false to
 	
-	let elements = [];
-	let elemLeft;
-	let elemTop;
-	let context;
-	let canvasEl;
+	let elements = []; //Array of nodes
+	let elemLeft; //canvas offset from Left
+	let elemTop;	//canvas offset from top
+	let context;	//canvas Context
+	let canvasEl;	
 
-	let lines = [];
+	let lines = []; //Array of lines
+
+	//Variables used in paths intersection calculations
 	let lineStartX;
 	let lineStartY;
 	let lineEndX;
@@ -29,23 +30,29 @@
 	let nodesCount = 0;
 	let linesCount = 0;
 
+	//Setup after rendering components 
 	onMount(() => {
 		context = canvasEl.getContext("2d");
 		elemLeft = canvasEl.offsetLeft + canvasEl.clientLeft;
 		elemTop = canvasEl.offsetTop + canvasEl.clientTop;
 	});
+	//Textbox with paths
 	const handleUpdate = (e) => {
 		text = e.target.value;
 	};
+	//Textbox with number of nodes
 	const nodesInput = (e) => {
 		nodes = e.target.value;
 	};
+	//Textbox with starting node for search
 	const fromNode = (e) => {
 		from = e.target.value;
 	};
+	//Textbox with paths values for shortest path
 	const pathValue = (e)=>{
 		valueIn = e.target.value;
 	}
+	//Clear
 	const handleClear = () => {
 		context.clearRect(0,0,canvasEl.width,canvasEl.height)
 		out = "";
@@ -57,6 +64,7 @@
 		linesCount = 0;
 		clearInterval(timer)
 	};
+	//Mode switcher node|path
 	const handleMode = (e) => {
 		add = !add;
 		switch (mode) {
@@ -68,11 +76,12 @@
 				break;
 		}
 	};
-
+	
 	const canvasClick = (event) => {
 		let x = event.pageX - elemLeft;
 		let y = event.pageY - elemTop;
 		let space = true;
+		//Determining, if click was on free space for adding new node
 		elements.forEach((element) => {
 				if (
 					y > element.top - element.height*2 &&
@@ -83,6 +92,7 @@
 					space = false;
 				}})
 		if (!add) {
+			//Determining, if click was on node to add new path
 			elements.forEach((element) => {
 				if (
 					y > element.top - element.height &&
@@ -90,13 +100,15 @@
 					x > element.left - element.width &&
 					x < element.left + element.width
 				) {
+					//Starting point of path
 					if (ft) {
 						lineFrom = element.num
 						text += element.num + "=>";
 						ft = false;
 						lineStartX = element.left;
 						lineStartY = element.top;
-					} else {
+					} //Ending point of path
+					else {
 						lineTo = element.num;
 						text += element.num + "\n";
 						ft = true;
@@ -107,6 +119,7 @@
 				}
 			});
 		} else {
+			//Adding new node
 			if(space){
 				elements.push({
 				colour: "#8F80F4",
@@ -143,6 +156,7 @@
 		let dx = lineEndX - lineStartX;
 		let dy = lineEndY - lineStartY;
 		let length = Math.sqrt(dx * dx + dy * dy);
+		//Calculating intersection of path and border of node, to prevent overlaping
 		if (length > 0){
     		dx /= length;
     		dy /= length;
@@ -165,7 +179,7 @@
 
 		lineStartX = lineEndX + dx
 		lineStartY = lineEndY + dy
-
+		//Adding new path to Array with paths
 		lines.push({
 				colour: "#71e0eb",
 				startX: lineStartX,
@@ -188,6 +202,7 @@
 			linesCount++;
 	};
 	let mat;
+	//Creating matrix
 	const matrix = () =>{
 		mat = new Array(nodes)	//create 2d array
 		for (let i = 0; i < nodes; i++) {
@@ -201,6 +216,7 @@
 			}
 		}
 		
+		//Filling matrix with path values
 		let parsValue = valueIn.split("\n");
 		let ind = 0;
 		let parsArr = text.split("\n");
@@ -213,8 +229,8 @@
 			} catch {}
 		} 
 		)
-		console.log(mat);
 	}
+	//Creating class with requested algorithm
 	const handleClick = () => {
 		let g
 		out = "";
@@ -231,7 +247,7 @@
 				g = new GraphSHP(nodes);
 			break;
 		}
-		
+		//Parsing vales for algorithm
 		g.setOut(out);
 		partsArr.forEach((element) => {
 			let tempArr = element.split("=>");
@@ -239,6 +255,7 @@
 				g.addEdge(tempArr[0], tempArr[1]);
 			} catch {}
 		});
+		//caling algorithm
 		switch (algorithm){
 			case 'DFS':
 				g.DFS(from);
@@ -255,12 +272,14 @@
 		console.log(out);
 	};
 	let nodesA =[];
+	
 	const handlePlay = () => {
 			nodesA = out.split("\n");
 			timer = setInterval(play, 1000)
 	}
 	let i = 0;
 	let timer;
+	//Gradually going thru nodes and recoloring them as algorithm searches through graph
 	const play = () => {
 		elements[nodesA[i]].colour = 'orange';
 		redraw();
@@ -270,7 +289,7 @@
 			clearInterval(timer)
 		}
 	}
-
+	//Function for redrawing canwas to show changes
 	const redraw = ()=>{
 			context.clearRect(0,0,canvasEl.width,canvasEl.height)
 			elements.forEach((element)=>{
@@ -328,9 +347,6 @@
 		rows="10"
 		on:input={handleUpdate}
 		value={text}/>
-		<!-- {#each text as txt}
-            <textarea name="value" id="" cols="30" rows="10" value={txt}></textarea>
-		{/each} -->
 </div>
 	{#if algorithm == 'SHP'}
 	<div class="Value">

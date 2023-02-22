@@ -1,7 +1,7 @@
 <script>
     import Visualization from "./components/Visualization.svelte";
 	import Description from "./components/Description.svelte";
-	let content = 'vis';
+	let content = 'desc';
 	let algorithm = 'DFS';
 </script>
 
@@ -27,12 +27,7 @@
 	class="{algorithm === 'SHP' ? 'selected' : ''}"
 	on:click="{() => algorithm = 'SHP'}"
 	>Shortest Path</button>
-	<!-- <button
-	class="{algorithm === 'SPT' ? 'selected' : ''}"
-	on:click="{() => algorithm = 'SPT'}"
-	>Spanning Tree</button> -->
 	<br>
-
 	{#if content == 'desc'}
 	    <Description algorithm={algorithm}/>
     {:else}
