@@ -101,7 +101,7 @@ public class Graph
     
     </div>
     <div class="gif">
-        <img src="animace/dfs.gif" alt="gif">
+        <img src="animace/dfs.png" alt="gif">
     </div>
     <div class="code">
         <Prism language="c" code="{code}" header="Sameple R Code"/>

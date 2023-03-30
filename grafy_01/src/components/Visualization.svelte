@@ -269,7 +269,6 @@
 		}
 		
 		out = g.getOut();
-		console.log(out);
 	};
 	let nodesA =[];
 	
@@ -333,14 +332,16 @@
 		bind:this={canvasEl}
 	/>
 	<br />
-	<button on:click={handleMode}>{mode}</button>
-	<button on:click={handleClear}>Clear</button>
-	<button on:click={handlePlay}>play</button>
+	<button on:click={handleMode}>Přidává se: {mode}</button>
+	<button on:click={handleClear}>Vyčistit plátno</button>
+	{#if algorithm != 'SHP'}
+	<button on:click={handlePlay}>Přehrát animaci</button>
+	{/if}
 	<br />
 	<div class="flex-container">
 	<div class="Input">
 		<textarea
-		placeholder="Input"
+		placeholder="Vstup"
 		name="inp"
 		id="in"
 		cols="30"
@@ -350,7 +351,7 @@
 </div>
 	{#if algorithm == 'SHP'}
 	<div class="Value">
-		<textarea placeholder="Path value" name="pathValue" id="pathValue" cols="30" rows="10" on:input={pathValue} value={valueIn}></textarea>
+		<textarea placeholder="Zadejte hodnotu cest mezi uzly. Pro každou cestu na samostatný řádek odpovídající cestě zobrazené v levém textovém poli" name="pathValue" id="pathValue" cols="30" rows="10" on:input={pathValue} value={valueIn}></textarea>
 	</div>
     {:else if algorithm == 'SPT'}
 	<div class="Value">
@@ -358,12 +359,12 @@
 	</div>
     {/if}
 	<div class="Output">
-	<textarea placeholder="Output" name="output" id="output" cols="30" rows="10" value={out}></textarea>
+	<textarea placeholder="Výstup" name="output" id="output" cols="30" rows="10" value={out}></textarea>
 </div>
 </div>
 	<br />
-	<input type="text" placeholder="Number of nodes:" on:input={nodesInput} />
-	<input type="text" placeholder="From node:" on:input={fromNode} />
+	<input type="text" placeholder="Počet vrcholů v grafu:" on:input={nodesInput} />
+	<input type="text" placeholder="Z vrcholu:" on:input={fromNode} />
 	<button on:click={handleClick}>Solve</button>
 	
 </main>
