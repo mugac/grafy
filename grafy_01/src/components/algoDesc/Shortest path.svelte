@@ -92,7 +92,6 @@ public static void Main()
     }
 }`;
 </script>
-<main>
     <div class="container">
         <div class="text">
             <p>
@@ -123,7 +122,6 @@ public static void Main()
         <Prism language="c" code="{code}" header="Sameple R Code"/>
     </div>
     </div>
-    </main>
 <style>
     div{
         /* border: 1px solid #8D8272; */

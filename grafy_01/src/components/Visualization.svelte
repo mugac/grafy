@@ -4,8 +4,8 @@
 	import { onMount } from "svelte";
 	let text = ""; //Textbox with paths
 	let out = ""; //Output textbox
-	let nodes; //Number of nodes input
-	let from;  //Number of starting node
+	let nodes = ""; //Number of nodes input
+	let from = "";  //Number of starting node
 	let valueIn = ""; //Path values for shortest path
 	let add = true; //true add node| false add path
 	let mode = "node"; //node|path
@@ -16,6 +16,8 @@
 	let elemTop;	//canvas offset from top
 	let context;	//canvas Context
 	let canvasEl;	
+
+	let textHolder = ""; //Textbox with paths
 
 	let lines = []; //Array of lines
 
@@ -63,7 +65,9 @@
 		nodesCount = 0;
 		linesCount = 0;
 		clearInterval(timer);
-
+		nodes = "";
+		from = "";
+		textHolder = "";	
 	};
 	//Mode switcher node|path
 	const handleMode = (e) => {
@@ -112,6 +116,7 @@
 					else {
 						lineTo = element.num;
 						text += element.num + "\n";
+						textHolder = text;
 						ft = true;
 						lineEndX = element.left;
 						lineEndY = element.top;
@@ -233,6 +238,7 @@
 	}
 	//Creating class with requested algorithm
 	const handleClick = () => {
+		text = textHolder;
 		let g
 		out = "";
 		let partsArr = text.split("\n");
@@ -276,6 +282,7 @@
 	const handlePlay = () => {
 			nodesA = out.split("\n");
 			i = 0;
+			clearInterval(timer);
 			timer = setInterval(play, 1000);
 	}
 	let i = 0;
@@ -370,8 +377,8 @@
 </div>
 </div>
 	<br />
-	<input type="text" placeholder="Počet vrcholů v grafu:" on:input={nodesInput} />
-	<input type="text" placeholder="Z vrcholu:" on:input={fromNode} />
+	<input type="text" placeholder="Počet vrcholů v grafu:" on:input={nodesInput} value={nodes}/>
+	<input type="text" placeholder="Z vrcholu:" on:input={fromNode} value={from}/>
 	<button on:click={handleClick}>Solve</button>
 	
 </main>

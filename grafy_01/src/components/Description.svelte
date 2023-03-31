@@ -4,7 +4,7 @@
     import Shortestpath from "./algoDesc/Shortest path.svelte";
     export let algorithm = 'DFS';
 </script>
-<main>
+
     {#if algorithm == 'DFS'}
 	    <Dfs/>
     {:else if algorithm == 'BFS'}
@@ -12,4 +12,3 @@
     {:else if algorithm == 'SHP'}
 	    <Shortestpath/>
     {/if}
-</main>

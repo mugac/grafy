@@ -80,7 +80,6 @@ public class BFS
     }
 }`;
 </script>
-<main>
     <div class="container">
         <div class="text">
             BFS (breadth-first search) je algoritmus pro prohledávání grafů. Jeho základní myšlenkou je prohledávat graf postupně od startovního uzlu do sousedních uzlů,
@@ -110,7 +109,6 @@ public class BFS
         <Prism language="c" code="{code}" header="Sameple R Code"/>
     </div>
     </div>
-    </main>
 <style>
     div{
         /* border: 1px solid #8D8272; */

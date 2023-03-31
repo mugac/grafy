@@ -76,7 +76,6 @@ public class Graph
     }
 }`;
 </script>
-<main>
     <div class="container">
         <div class="text">
         <p>DFS (Depth-First Search, česky prohledávání do hloubky) je jedna z nejběžnějších technik pro procházení grafů nebo stromů. <br><br>
@@ -107,7 +106,6 @@ public class Graph
         <Prism language="c" code="{code}" header="Sameple R Code"/>
     </div>
     </div>
-    </main>
 <style>
     div{
         margin-top: 5%;
