@@ -62,7 +62,8 @@
 		lines = [];
 		nodesCount = 0;
 		linesCount = 0;
-		clearInterval(timer)
+		clearInterval(timer);
+
 	};
 	//Mode switcher node|path
 	const handleMode = (e) => {
@@ -156,7 +157,7 @@
 		let dx = lineEndX - lineStartX;
 		let dy = lineEndY - lineStartY;
 		let length = Math.sqrt(dx * dx + dy * dy);
-		//Calculating intersection of path and border of node, to prevent overlaping
+		//Calculating intersection of path and border of node to prevent overlaping
 		if (length > 0){
     		dx /= length;
     		dy /= length;
@@ -274,17 +275,22 @@
 	
 	const handlePlay = () => {
 			nodesA = out.split("\n");
-			timer = setInterval(play, 1000)
+			i = 0;
+			timer = setInterval(play, 1000);
 	}
 	let i = 0;
 	let timer;
-	//Gradually going thru nodes and recoloring them as algorithm searches through graph
+	//Going thru nodes and recoloring them as algorithm searches through graph
 	const play = () => {
 		elements[nodesA[i]].colour = 'orange';
 		redraw();
 		elements[nodesA[i]].colour = '#8F80F4';
 		i++;
 		if(i==nodesA.length-1){
+			//Timeout for showing last node before redrawing canvas
+			setTimeout(() => {
+				redraw();
+			}, 1000);
 			clearInterval(timer)
 		}
 	}
@@ -346,6 +352,7 @@
 		id="in"
 		cols="30"
 		rows="10"
+		readonly
 		on:input={handleUpdate}
 		value={text}/>
 </div>
@@ -359,7 +366,7 @@
 	</div>
     {/if}
 	<div class="Output">
-	<textarea placeholder="Výstup" name="output" id="output" cols="30" rows="10" value={out}></textarea>
+	<textarea placeholder="Výstup" name="output" id="output" cols="30" rows="10" readonly value={out}></textarea>
 </div>
 </div>
 	<br />
