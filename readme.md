@@ -3,6 +3,8 @@
 ## Getting Started
 
 ```bash
+cd grafy_01
+
 npm install
 
 # then
