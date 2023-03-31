@@ -117,7 +117,7 @@ public static void Main()
 </p>
     </div>
     <div class="gif">
-        <img src="animace/shp.png" alt="png">
+        <img src="animace/Dijkstra.png" alt="png">
     </div>
     <div class="code">
         <Prism language="c" code="{code}" header="Sameple R Code"/>
