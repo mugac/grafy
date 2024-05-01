@@ -4,7 +4,6 @@
 	let content = 'desc';
 	let algorithm = 'DFS';
 </script>
-
 <main>
 	<button
 	class="{content === 'desc' ? 'selected' : ''}"
@@ -35,7 +34,6 @@
     {/if}
 	
 </main>
-
 <style>
 	main {
 		text-align: center;

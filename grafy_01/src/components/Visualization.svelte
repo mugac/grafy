@@ -2,6 +2,7 @@
     export let algorithm = 'DFS';
 	import {GraphDFS, GraphBFS, GraphSHP} from  "./algs.js";
 	import { onMount } from "svelte";
+	
 	let text = ""; //Textbox with paths
 	let out = ""; //Output textbox
 	let nodes = ""; //Number of nodes input
